@@ -215,6 +215,7 @@ async def get_company_news(ticker: str) -> str:
     # Check if news are found
     if not news:
         return "Unable to fetch news or no news found."
+    return json.dumps(news, indent=2)
 
 
 @mcp.tool()

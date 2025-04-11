@@ -9,13 +9,16 @@ It allows Claude and other AI assistants to retrieve income statements, balance 
 ## Available Tools
 
 This MCP server provides the following tools:
-
-- **get_income_statements**: Retrieve income statements for a stock
-- **get_balance_sheets**: Retrieve balance sheets for stock
-- **get_cash_flow_statements**: Retrieve cash flow statements for a stock
-- **get_current_price**: Get the latest price information for a stock
-- **get_prices**: Get historical stock prices with customizable date ranges and intervals
-- **get_news**: Get the latest news for a stock
+- **get_income_statements**: Get income statements for a company.
+- **get_balance_sheets**: Get balance sheets for a company.
+- **get_cash_flow_statements**: Get cash flow statements for a company.
+- **get_current_stock_price**: Get the current / latest price of a company.
+- **get_historical_stock_prices**: Gets historical stock prices for a company.
+- **get_company_news**: Get news for a company.
+- **get_available_crypto_tickers**: Gets all available crypto tickers.
+- **get_crypto_prices**: Gets historical prices for a crypto currency.
+- **get_historical_crypto_prices**: Gets historical prices for a crypto currency.
+- **get_current_crypto_price**: Get the current / latest price of a crypto currency.
 
 ## Setup
 
