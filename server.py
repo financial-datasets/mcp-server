@@ -334,6 +334,12 @@ if __name__ == "__main__":
     # Log server startup
     logger.info("Starting Financial Datasets MCP Server...")
 
+    # Warn if no API key found
+    if not os.environ.get("FINANCIAL_DATASETS_API_KEY"):
+        logger.warning(
+            "No API key found, make sure the FINANCIAL_DATASETS_API_KEY environment variable is set."
+        )
+
     # Initialize and run the server
     mcp.run(transport="stdio")
 
