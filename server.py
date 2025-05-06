@@ -29,7 +29,7 @@ async def make_request(url: str) -> dict[str, any] | None:
 
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.get(url, headers=headers, timeout=30.0)
+            response = await client.get(url, headers=headers, timeout=30.0, follow_redirects=True)
             response.raise_for_status()
             return response.json()
         except Exception as e:
@@ -328,6 +328,29 @@ async def get_current_crypto_price(ticker: str) -> str:
 
     # Stringify the current price
     return json.dumps(snapshot, indent=2)
+
+
+@mcp.tool()
+async def get_filings(
+    ticker: str, 
+    filing_type: str
+) -> str:
+    """Get the current / latest price of a crypto currency.
+
+    Args:
+        ticker: Ticker symbol of the company (e.g. AAPL, GOOGL)
+        filing_type: Type of the filing (10-K, 10-Q, 8-K, 4, 144)
+    """
+    # Fetch data from the API
+    url = f"{FINANCIAL_DATASETS_API_BASE}/filings?ticker={ticker}&filing_type={filing_type}"
+    data = await make_request(url)
+
+    # Check if data is found and contains filings
+    if not data or not (filings := data.get("filings", [])):
+        return "Unable to fetch filings or no filings found."
+
+    # Stringify the current price
+    return json.dumps(filings, indent=2)
 
 
 if __name__ == "__main__":
