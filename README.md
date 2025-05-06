@@ -66,7 +66,7 @@ This MCP server provides the following tools:
 
 5. Run the server:
    ```bash
-   uv run server.py
+   uv run --env-file .env server.py
    ```
 
 ## Connecting to Claude Desktop
@@ -90,6 +90,8 @@ This MCP server provides the following tools:
            "--directory",
            "/absolute/path/to/financial-datasets-mcp",
            "run",
+           "--env-file",
+           "/absolute/path/to/financial-datasets-mcp/.env"
            "server.py"
          ]
        }
