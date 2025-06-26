@@ -46,13 +46,8 @@ This MCP server provides the following tools:
 
 3. Install dependencies:
    ```bash
-   # Create virtual env and activate it
-   uv venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   
-   # Install dependencies
-   uv add "mcp[cli]" httpx  # On Windows: uv add mcp[cli] httpx
-
+   # Install the requirements
+   uv sync
    ```
 
 4. Set up environment variables:
