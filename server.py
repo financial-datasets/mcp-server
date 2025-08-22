@@ -5,6 +5,7 @@ import logging
 import sys
 from mcp.server.fastmcp import FastMCP
 from dotenv import load_dotenv
+import datetime
 
 # Configure logging to write to stderr
 logging.basicConfig(
@@ -34,6 +35,22 @@ async def make_request(url: str) -> dict[str, any] | None:
     async with httpx.AsyncClient() as client:
         try:
             response = await client.get(url, headers=headers, timeout=30.0)
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            return {"Error": str(e)}
+
+
+# Helper function for async POST requests
+async def make_post_request(url: str, body: dict) -> dict[str, any] | None:
+    """Make a POST request to the Financial Datasets API with proper error handling."""
+    load_dotenv()
+    headers = {}
+    if api_key := os.environ.get("FINANCIAL_DATASETS_API_KEY"):
+        headers["X-API-KEY"] = api_key
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(url, headers=headers, json=body, timeout=30.0)
             response.raise_for_status()
             return response.json()
         except Exception as e:
@@ -364,6 +381,105 @@ async def get_sec_filings(
 
     # Stringify the SEC filings
     return json.dumps(filings, indent=2)
+
+
+@mcp.tool()
+async def get_insider_news(
+    ticker: str,
+    end_date: str,
+    start_date: str | None = None,
+    limit: int = 1,
+) -> str:
+    """Get company news (insider news) for a company between two dates.
+
+    Args:
+        ticker: Ticker symbol of the company (e.g. AAPL, GOOGL)
+        end_date: End date for the news (YYYY-MM-DD)
+        start_date: Start date for the news (YYYY-MM-DD, optional)
+        limit: Maximum number of news items to return (default: 1000)
+    """
+    print(f"[TOOL CALL] get_insider_news called with ticker={ticker}, start_date={start_date}, end_date={end_date}, limit={limit}")
+    url = f"{FINANCIAL_DATASETS_API_BASE}/news/?ticker={ticker}&end_date={end_date}&limit={limit}"
+    if start_date:
+        url += f"&start_date={start_date}"
+
+    data = await make_request(url)
+
+    if not data:
+        return "Unable to fetch news or no news found."
+
+    news = data.get("news", [])
+    if not news:
+        return "Unable to fetch news or no news found."
+
+    return json.dumps(news, indent=2)
+
+
+@mcp.tool()
+async def get_market_cap(
+    ticker: str,
+    end_date: str,
+) -> str:
+    """Get the market cap for a company as of a given end_date.
+
+    Args:
+        ticker: Ticker symbol of the company (e.g. AAPL, GOOGL)
+        end_date: Date for the market cap (YYYY-MM-DD)
+    """
+    today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+    if end_date == today_str:
+        url = f"{FINANCIAL_DATASETS_API_BASE}/company/facts/?ticker={ticker}"
+        data = await make_request(url)
+        if not data:
+            return "Unable to fetch company facts or no data found."
+        company_facts = data.get("company_facts", {})
+        market_cap = company_facts.get("market_cap")
+        if market_cap is None:
+            return "Market cap not found."
+        return json.dumps({"market_cap": market_cap})
+    url = f"{FINANCIAL_DATASETS_API_BASE}/financial-metrics/?ticker={ticker}&report_period_lte={end_date}&limit=1&period=ttm"
+    data = await make_request(url)
+    if not data:
+        return "Unable to fetch financial metrics or no data found."
+    metrics = data.get("financial_metrics", [])
+    if not metrics or metrics[0].get("market_cap") is None:
+        return "Market cap not found."
+    return json.dumps({"market_cap": metrics[0]["market_cap"]})
+
+
+@mcp.tool()
+async def search_line_items(
+    ticker: str,
+    line_items: list[str],
+    end_date: str,
+    period: str = "ttm",
+    limit: int = 10,
+) -> str:
+    """Search for specific line items for a company.
+
+    Args:
+        ticker: Ticker symbol of the company (e.g. AAPL, GOOGL)
+        line_items: List of line item names to search for (e.g. ["Revenue", "Net Income"])
+        end_date: End date for the search (YYYY-MM-DD)
+        period: Period (e.g. ttm, annual, quarterly)
+        limit: Maximum number of results to return (default: 10)
+    """
+    url = f"{FINANCIAL_DATASETS_API_BASE}/financials/search/line-items"
+    body = {
+        "tickers": [ticker],
+        "line_items": line_items,
+        "end_date": end_date,
+        "period": period,
+        "limit": limit,
+    }
+    data = await make_post_request(url, body)
+    if not data:
+        return "Unable to fetch line items or no line items found."
+    search_results = data.get("search_results", [])
+    if not search_results:
+        return "No line items found."
+    return json.dumps(search_results[:limit], indent=2)
+
 
 if __name__ == "__main__":
     # Log server startup
