@@ -243,36 +243,6 @@ async def get_available_crypto_tickers() -> str:
 
 
 @mcp.tool()
-async def get_crypto_prices(
-    ticker: str,
-    start_date: str,
-    end_date: str,
-    interval: str = "day",
-    interval_multiplier: int = 1,
-) -> str:
-    """
-    Gets historical prices for a crypto currency.
-    """
-    # Fetch data from the API
-    url = f"{FINANCIAL_DATASETS_API_BASE}/crypto/prices/?ticker={ticker}&interval={interval}&interval_multiplier={interval_multiplier}&start_date={start_date}&end_date={end_date}"
-    data = await make_request(url)
-
-    # Check if data is found
-    if not data:
-        return "Unable to fetch prices or no prices found."
-
-    # Extract the prices
-    prices = data.get("prices", [])
-
-    # Check if prices are found
-    if not prices:
-        return "Unable to fetch prices or no prices found."
-
-    # Stringify the prices
-    return json.dumps(prices, indent=2)
-
-
-@mcp.tool()
 async def get_historical_crypto_prices(
     ticker: str,
     start_date: str,
