@@ -4,6 +4,7 @@ import httpx
 import logging
 import sys
 from mcp.server.fastmcp import FastMCP
+from mcp.types import ToolAnnotations
 from dotenv import load_dotenv
 
 # Configure logging to write to stderr
@@ -40,7 +41,14 @@ async def make_request(url: str) -> dict[str, any] | None:
             return {"Error": str(e)}
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get Income Statements",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_income_statements(
     ticker: str,
     period: str = "annual",
@@ -72,7 +80,14 @@ async def get_income_statements(
     return json.dumps(income_statements, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get Balance Sheets",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_balance_sheets(
     ticker: str,
     period: str = "annual",
@@ -104,7 +119,14 @@ async def get_balance_sheets(
     return json.dumps(balance_sheets, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get Cash Flow Statements",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_cash_flow_statements(
     ticker: str,
     period: str = "annual",
@@ -136,7 +158,14 @@ async def get_cash_flow_statements(
     return json.dumps(cash_flow_statements, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get Current Stock Price",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_current_stock_price(ticker: str) -> str:
     """Get the current / latest price of a company.
 
@@ -162,7 +191,14 @@ async def get_current_stock_price(ticker: str) -> str:
     return json.dumps(snapshot, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get Historical Stock Prices",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_historical_stock_prices(
     ticker: str,
     start_date: str,
@@ -198,7 +234,14 @@ async def get_historical_stock_prices(
     return json.dumps(prices, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get Company News",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_company_news(ticker: str) -> str:
     """Get news for a company.
 
@@ -222,7 +265,14 @@ async def get_company_news(ticker: str) -> str:
     return json.dumps(news, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get Available Crypto Tickers",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_available_crypto_tickers() -> str:
     """
     Gets all available crypto tickers.
@@ -242,7 +292,14 @@ async def get_available_crypto_tickers() -> str:
     return json.dumps(tickers, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get Crypto Prices",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_crypto_prices(
     ticker: str,
     start_date: str,
@@ -272,7 +329,14 @@ async def get_crypto_prices(
     return json.dumps(prices, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get Historical Crypto Prices",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_historical_crypto_prices(
     ticker: str,
     start_date: str,
@@ -308,7 +372,14 @@ async def get_historical_crypto_prices(
     return json.dumps(prices, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get Current Crypto Price",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_current_crypto_price(ticker: str) -> str:
     """Get the current / latest price of a crypto currency.
 
@@ -334,7 +405,14 @@ async def get_current_crypto_price(ticker: str) -> str:
     return json.dumps(snapshot, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Get SEC Filings",
+        readOnlyHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    )
+)
 async def get_sec_filings(
     ticker: str,
     limit: int = 10,
