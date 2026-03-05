@@ -1,5 +1,7 @@
 # Financial Datasets MCP Server
 
+[![MCP Shield](https://img.shields.io/badge/MCP_Shield-A%2B_(99)-brightgreen)](https://github.com/thuggeelya/mcp-shield)
+
 ## Introduction
 
 This is a Model Context Protocol (MCP) server that provides access to stock market data from [Financial Datasets](https://www.financialdatasets.ai/). 
