@@ -26,7 +26,7 @@ async def make_request(url: str) -> dict[str, any] | None:
     """Make a request to the Financial Datasets API with proper error handling."""
     # Load environment variables from .env file
     load_dotenv()
-    
+
     headers = {}
     if api_key := os.environ.get("FINANCIAL_DATASETS_API_KEY"):
         headers["X-API-KEY"] = api_key
@@ -228,7 +228,7 @@ async def get_available_crypto_tickers() -> str:
     Gets all available crypto tickers.
     """
     # Fetch data from the API
-    url = f"{FINANCIAL_DATASETS_API_BASE}/crypto/prices/tickers"
+    url = f"{FINANCIAL_DATASETS_API_BASE}/prices/tickers/"  ## Fixed the url here
     data = await make_request(url)
 
     # Check if data is found
@@ -351,7 +351,7 @@ async def get_sec_filings(
     url = f"{FINANCIAL_DATASETS_API_BASE}/filings/?ticker={ticker}&limit={limit}"
     if filing_type:
         url += f"&filing_type={filing_type}"
- 
+
     # Call the API
     data = await make_request(url)
 
@@ -364,6 +364,7 @@ async def get_sec_filings(
 
     # Stringify the SEC filings
     return json.dumps(filings, indent=2)
+
 
 if __name__ == "__main__":
     # Log server startup
