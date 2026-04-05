@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "mcp-server": {
+      "command": "npx",
+      "args": [
+        "financial-datasets-mcp-server"
+      ]
+    }
+  }
+}

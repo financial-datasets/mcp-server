@@ -1,0 +1,16 @@
+{
+  "name": "mcp-server",
+  "version": "0.1.0",
+  "description": "An MCP server for interacting with the Financial Datasets stock market API.",
+  "author": {
+    "name": "financial-datasets",
+    "url": "https://github.com/financial-datasets"
+  },
+  "homepage": "https://github.com/financial-datasets/mcp-server",
+  "repository": "https://github.com/financial-datasets/mcp-server",
+  "keywords": [
+    "mcp",
+    "codex"
+  ],
+  "mcpServers": "./.mcp.json"
+}
