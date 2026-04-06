@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "name": "financial-datasets",
+  "version": "0.1.0",
+  "registry": {
+    "visibility": "public"
+  },
+  "manifest": {
+    "homepage": "https://github.com/financial-datasets/mcp-server",
+    "repository": "https://github.com/financial-datasets/mcp-server",
+    "license": "MIT"
+  },
+  "tools": [
+    {
+      "id": "stock_data",
+      "name": "stock_data",
+      "description": "Fetch historical and real-time stock market data",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Stock ticker symbol (e.g., AAPL)"
+          },
+          "range": {
+            "type": "string",
+            "description": "Data range (1d, 5d, 1mo, 3mo, 6mo, 1y, 5y, max)"
+          }
+        },
+        "required": ["symbol"]
+      }
+    },
+    {
+      "id": "company_info",
+      "name": "company_info",
+      "description": "Get company fundamentals and profile data",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Stock ticker symbol"
+          }
+        },
+        "required": ["symbol"]
+      }
+    }
+  ]
+}
