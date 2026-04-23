@@ -1,5 +1,7 @@
 # Financial Datasets MCP Server
 
+[![Add to Kiro](https://kiro.dev/images/add-to-kiro.svg)](https://kiro.dev/launch/mcp/add?name=financial-datasets&config=%7B%22command%22%3A%22uv%22%2C%22args%22%3A%5B%22--directory%22%2C%22%2Fabsolute%2Fpath%2Fto%2Ffinancial-datasets-mcp%22%2C%22run%22%2C%22server.py%22%5D%7D)
+
 ## Introduction
 
 This is a Model Context Protocol (MCP) server that provides access to stock market data from [Financial Datasets](https://www.financialdatasets.ai/). 
@@ -107,3 +109,25 @@ This MCP server provides the following tools:
    - "What are Apple's recent income statements?"
    - "Show me the current price of Tesla stock"
    - "Get historical prices for MSFT from 2024-01-01 to 2024-12-31"
+
+## Connecting to Kiro
+
+To install in [Kiro](https://kiro.dev), click the badge at the top of this README or manually add the following to your Kiro MCP config file (`.kiro/settings/mcp.json` or `~/.kiro/settings/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "financial-datasets": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/absolute/path/to/financial-datasets-mcp",
+        "run",
+        "server.py"
+      ]
+    }
+  }
+}
+```
+
+Replace `/absolute/path/to/financial-datasets-mcp` with the absolute path to this project.
