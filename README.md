@@ -55,6 +55,11 @@ This MCP server provides the following tools:
 
    ```
 
+   Or install the server as a local Python package:
+   ```bash
+   pip install .
+   ```
+
 4. Set up environment variables:
    ```bash
    # Create .env file for your API keys
@@ -67,6 +72,11 @@ This MCP server provides the following tools:
 5. Run the server:
    ```bash
    uv run server.py
+   ```
+
+   If installed with `pip install .`, run:
+   ```bash
+   financial-datasets-mcp
    ```
 
 ## Connecting to Claude Desktop
@@ -85,19 +95,17 @@ This MCP server provides the following tools:
    {
      "mcpServers": {
        "financial-datasets": {
-         "command": "/path/to/uv",
-         "args": [
-           "--directory",
-           "/absolute/path/to/financial-datasets-mcp",
-           "run",
-           "server.py"
-         ]
+         "command": "financial-datasets-mcp",
+         "args": []
        }
      }
    }
    ```
    
-   Replace `/path/to/uv` with the result of `which uv` and `/absolute/path/to/financial-datasets-mcp` with the absolute path to this project.
+   If you prefer using `uv` from a source checkout, keep `command` set to the
+   absolute path returned by `which uv` and pass `--directory`,
+   `/absolute/path/to/financial-datasets-mcp`, `run`, and `server.py` in
+   `args`.
 
 4. Restart Claude Desktop
 
